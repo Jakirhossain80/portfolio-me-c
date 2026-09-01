@@ -27,7 +27,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
+              className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <Icon className="h-5 w-5" />
             </a>

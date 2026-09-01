@@ -24,11 +24,19 @@ const baseClasses =
   "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 " +
   "font-body text-sm font-medium shadow-sm transition duration-200 ease-out " +
   "cursor-pointer hover:scale-[1.02] hover:shadow-lg " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
+  // Plain outline, not a Tailwind ring (box-shadow-based): rings composite via
+  // --tw-ring-shadow into the same box-shadow property that shadow-sm/hover:shadow-lg
+  // already occupy, and lost that composition in testing — outline is a separate
+  // property, so it always paints regardless of the shadow utilities above.
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent " +
   "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-sm";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-accent text-white",
+  // text-background (not text-white): the accent token's luminance differs enough
+  // between themes that a single fixed text color can't clear WCAG AA 4.5:1 in
+  // both — --background is near-white in light mode / near-black in dark mode,
+  // which happens to be exactly the contrast each theme's accent needs.
+  primary: "bg-accent text-background",
   secondary: "bg-transparent border border-border text-foreground",
 };
 

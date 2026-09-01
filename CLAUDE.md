@@ -58,7 +58,7 @@ Contact, Footer) meant to read as modern and professional, not flashy.
 | Border | `#1F2733` | `#E2E6EC` |
 | Text (primary) | `#EDEFF2` | `#12161C` |
 | Text (muted) | `#8B96A5` | `#5B6472` |
-| Accent | `#14B8A6` (or `#0F9E8E`) | `#0C8B7D` |
+| Accent | `#14B8A6` (or `#0F9E8E`) | `#0B7D70` |
 
 Accent is used sparingly: links, primary CTA, active/hover states. Not washed across the
 page as a background or large fill.
@@ -72,7 +72,13 @@ page as a background or large fill.
 `bg-background`, `bg-surface`, `border-border`, `text-foreground`, `text-muted`, and
 `text-accent` work as plain Tailwind utility classes — use those names, not raw hex or
 invented token names. Dark-mode accent is implemented as `#14B8A6` (the primary of the
-two options above); `#0F9E8E` was not used.
+two options above); `#0F9E8E` was not used. Light-mode accent was darkened from the
+original `#0C8B7D` to `#0B7D70` during the accessibility audit — the original only hit
+3.95:1 against `--background`, below WCAG AA's 4.5:1 for normal text; `#0B7D70` clears
+it at 4.73:1 along the same hue. The `Button` primary variant's text color is
+`text-background` rather than `text-white`/`text-black`, since `--accent`'s luminance
+differs enough between themes that no single fixed text color clears 4.5:1 in both —
+`--background` (near-white in light mode, near-black in dark mode) does.
 
 **Typography**
 - Headings: **Manrope**

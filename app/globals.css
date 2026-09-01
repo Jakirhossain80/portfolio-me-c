@@ -6,7 +6,11 @@
   --border: #E2E6EC;
   --foreground: #12161C;
   --muted: #5B6472;
-  --accent: #0C8B7D;
+  /* #0C8B7D (CLAUDE.md's documented light accent) only reaches 3.95:1 against
+     --background and 4.20:1 for white button text — both below WCAG AA's 4.5:1
+     for normal text. Darkened along the same hue to #0B7D70, which clears both
+     (4.73:1 for each) with margin. */
+  --accent: #0B7D70;
   --error: #DC2626;
 }
 

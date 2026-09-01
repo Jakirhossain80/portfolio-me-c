@@ -13,7 +13,7 @@ type SubmitStatus = "idle" | "success" | "error";
 const fieldClasses =
   "w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-foreground " +
   "transition duration-200 ease-out placeholder:text-muted " +
-  "focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent";
+  "focus:border-accent focus:outline-2 focus:outline-offset-2 focus:outline-accent";
 
 export default function Contact() {
   const [status, setStatus] = useState<SubmitStatus>("idle");

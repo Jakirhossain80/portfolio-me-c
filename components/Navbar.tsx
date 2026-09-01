@@ -32,7 +32,7 @@ function NavLink({
     <a
       href={href}
       onClick={onClick}
-      className={`group relative inline-flex cursor-pointer items-center py-1 font-body text-sm transition-colors duration-200 ${
+      className={`group relative inline-flex cursor-pointer items-center rounded-sm py-1 font-body text-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
         active ? "text-accent" : "text-foreground hover:text-accent"
       }`}
     >
@@ -91,7 +91,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a
           href="#hero"
-          className="cursor-pointer font-heading text-lg text-foreground transition-colors duration-200 hover:text-accent"
+          className="cursor-pointer rounded-sm font-heading text-lg text-foreground transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           {profile.name}
         </a>
@@ -115,7 +115,7 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
+              className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <Icon className="h-5 w-5" />
             </a>
@@ -127,7 +127,7 @@ export default function Navbar() {
           onClick={() => setMobileOpen((open) => !open)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
-          className="inline-flex cursor-pointer items-center justify-center text-foreground transition-colors duration-200 hover:text-accent md:hidden"
+          className="inline-flex cursor-pointer items-center justify-center rounded-sm text-foreground transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden"
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
@@ -154,7 +154,7 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
+                className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 <Icon className="h-5 w-5" />
               </a>
