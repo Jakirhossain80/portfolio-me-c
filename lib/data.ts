@@ -10,6 +10,12 @@ export const profile: Profile = {
     "e-commerce storefronts to real-time collaboration tools and recruitment " +
     "platforms — with a focus on clean architecture, role-based auth, and " +
     "production-ready deployments.",
+  focusAreas: [
+    "Full-stack MERN development",
+    "Multi-tenant architecture & RBAC",
+    "REST API design & real-time features",
+    "Authentication & access control",
+  ],
   location: "Dhaka, Bangladesh",
   email: "jakir.devbd@gmail.com",
   githubUrl: "https://github.com/Jakirhossain80",

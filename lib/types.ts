@@ -3,6 +3,7 @@ export interface Profile {
   title: string;
   tagline: string;
   summary: string;
+  focusAreas: string[];
   location: string;
   email: string;
   githubUrl: string;
