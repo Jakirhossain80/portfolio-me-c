@@ -72,6 +72,37 @@ samp {
   font-family: var(--font-mono);
 }
 
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-reveal {
+  animation: hero-in 600ms ease-out both;
+}
+
+.hero-reveal-1 {
+  animation-delay: 0ms;
+}
+
+.hero-reveal-2 {
+  animation-delay: 120ms;
+}
+
+.hero-reveal-3 {
+  animation-delay: 240ms;
+}
+
+.hero-reveal-4 {
+  animation-delay: 360ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -82,5 +113,11 @@ samp {
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Blanket override above still leaves a near-instant animation running;
+     this fully removes it so reduced-motion users get no animation at all. */
+  .hero-reveal {
+    animation: none;
   }
 }
