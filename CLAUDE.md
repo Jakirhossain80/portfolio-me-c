@@ -17,9 +17,12 @@ Contact, Footer) meant to read as modern and professional, not flashy.
 - **Next.js** (App Router)
 - **React**
 - **TypeScript**
-- **Tailwind CSS**
-- **Lucide React** — icons
-- **React Hook Form + Zod** — contact form validation only (not used elsewhere)
+- **Tailwind CSS v4** — CSS-first `@theme` / `@theme inline` config lives in
+  `app/globals.css`; there is no `tailwind.config.ts` or `.js` in this repo
+- **Lucide React** — icons (not yet installed as of the UI-primitives step; add it when
+  the first icon usage actually lands, e.g. Navbar/Footer social links)
+- **React Hook Form + Zod** — contact form validation only, not used elsewhere (not yet
+  installed; add when building the Contact section)
 - **Deployment:** Vercel
 - **Source control:** GitHub
 - **Package manager:** npm — keep `package-lock.json` in sync, don't introduce yarn/pnpm
@@ -33,7 +36,9 @@ Contact, Footer) meant to read as modern and professional, not flashy.
 - **lucide-react version check:** some brand/logo icons (`Github`, `Linkedin`, etc.) have
   been removed from recent lucide-react versions. Before importing an icon, confirm it
   actually exists in the installed version. If a brand logo icon isn't available, use a
-  small inline SVG instead of guessing at an import name.
+  small inline SVG instead of guessing at an import name. (Not hit in practice yet —
+  lucide-react isn't installed and no component through the UI-primitives step has
+  needed an icon.)
 - **All editable content lives in `lib/data.ts`** (profile info, skills, projects array).
   Never hardcode bio text, skill names, or project details directly inside component JSX
   — components should read from this file so content updates don't require touching
@@ -58,6 +63,17 @@ Contact, Footer) meant to read as modern and professional, not flashy.
 Accent is used sparingly: links, primary CTA, active/hover states. Not washed across the
 page as a background or large fill.
 
+**Implementation note:** these tokens are real CSS custom properties in
+`app/globals.css` — `--background`, `--surface`, `--border`, `--foreground`, `--muted`,
+`--accent` — set on `:root` for light and overridden inside
+`@media (prefers-color-scheme: dark)`. They're re-exposed to Tailwind via an
+`@theme inline` block as `--color-background`, `--color-surface`, `--color-border`,
+`--color-foreground`, `--color-muted`, `--color-accent`, which is what makes
+`bg-background`, `bg-surface`, `border-border`, `text-foreground`, `text-muted`, and
+`text-accent` work as plain Tailwind utility classes — use those names, not raw hex or
+invented token names. Dark-mode accent is implemented as `#14B8A6` (the primary of the
+two options above); `#0F9E8E` was not used.
+
 **Typography**
 - Headings: **Manrope**
 - Body: **IBM Plex Sans**
@@ -65,6 +81,14 @@ page as a background or large fill.
 - Type scale (rem, ~1.25 ratio): 0.8125 / 0.875 / 1 / 1.125 / 1.5 / 2 / 2.75 / 3.5
 - `text-wrap: balance` on headings; body copy max-width ~65ch; uppercase labels get
   ~0.04–0.08em letter-spacing
+- **Implementation note:** the type scale is implemented as overrides to Tailwind's
+  built-in size scale (`--text-xs` through `--text-4xl` in the same `@theme inline`
+  block), so the standard `text-xs`…`text-4xl` utility classes already resolve to these
+  values — there are no separate custom-named size tokens. Font CSS variables:
+  `--font-heading` (Manrope), `--font-body` (IBM Plex Sans), `--font-mono` (JetBrains
+  Mono) — set via `next/font/google` in `app/layout.tsx` and mapped through
+  `@theme inline`, giving `font-heading`, `font-body`, and `font-mono` Tailwind
+  utilities.
 
 **Animation** — purposeful and restrained, not flashy:
 - Scroll-reveal: fade + ~16px upward slide, 500–600ms ease-out, IntersectionObserver-based
@@ -80,6 +104,12 @@ page as a background or large fill.
 - Nav/text links: color shift to accent with a sliding underline, not an abrupt snap
 - Project/skill cards: `translateY(-4px)` lift + border shifts to accent + shadow increases
 - Social/icon links: color shift to accent (no scale, or a slight 1.1x)
+
+**Implemented so far:** `components/ui/Button.tsx` covers the button hover/cursor/disabled
+rules; `components/ui/Reveal.tsx` covers the scroll-reveal animation rule
+(IntersectionObserver, fires once, verified to respect `prefers-reduced-motion` via the
+global rule in `globals.css`). Nav-link, card, and social-icon hover states, and the Hero
+entrance animation, are not built yet.
 
 **Cursor**
 - `cursor: pointer` on every interactive element — set explicitly on custom-styled
@@ -124,13 +154,22 @@ otherwise these five are confirmed:
    Live: https://careerbridge-client.vercel.app
    Repo: https://github.com/Jakirhossain80/careerbridge
 
+**Confirmed current as of the content-layer step:** all five are implemented verbatim
+in `lib/data.ts` (`profile`, `skills`, `projects`) — that file is the source of truth
+going forward. Update there, not here, when project details actually change.
+
 ## Folder structure
 
 ```
-app/          Routes, layout, global styles
-components/   Reusable UI (Navbar, Hero, About, Skills, Projects, Contact, Footer, primitives)
-lib/          data.ts (all site content) + types + utilities
-public/       Static assets (resume PDF, favicon, OG image)
+app/            Routes, layout, global styles, metadata (layout.tsx, globals.css, page.tsx)
+components/
+  ui/           Shared primitives: Button, Badge, SectionHeading, Reveal
+                (Navbar, Hero, About, Skills, Projects, Contact, Footer will land
+                 directly under components/ as each is built)
+lib/            data.ts (profile/skills/projects) + types.ts (shared interfaces)
+public/         Currently just the default Next.js SVGs from create-next-app; still
+                needs images/profile.jpg, og-image.png, a resume PDF, and a custom
+                favicon
 ```
 
 ## Commands
