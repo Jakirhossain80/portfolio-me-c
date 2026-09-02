@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import ThemeProvider from "@/components/ThemeProvider";
+import ScrollToTop from "@/components/ScrollToTop";
 import { profile } from "@/lib/data";
 import { getSiteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>
