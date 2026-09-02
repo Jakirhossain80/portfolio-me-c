@@ -12,6 +12,9 @@
      (4.73:1 for each) with margin. */
   --accent: #0B7D70;
   --error: #DC2626;
+  /* Real value is set from JS (Navbar measures its own rendered height);
+     this is only the pre-hydration/SSR fallback. */
+  --navbar-height: 64px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,6 +80,13 @@ kbd,
 pre,
 samp {
   font-family: var(--font-mono);
+}
+
+/* Without this, an anchor-link jump (or #hash navigation) lands a section's
+   top edge at viewport y=0 — hidden behind the sticky Navbar — which throws
+   off the IntersectionObserver-based active-link detection in Navbar.tsx. */
+section[id] {
+  scroll-margin-top: var(--navbar-height);
 }
 
 @keyframes hero-in {

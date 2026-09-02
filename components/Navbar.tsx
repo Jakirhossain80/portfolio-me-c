@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { profile } from "@/lib/data";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
@@ -47,6 +47,8 @@ function NavLink({
 }
 
 export default function Navbar() {
+  const headerRef = useRef<HTMLElement>(null);
+  const [navbarHeight, setNavbarHeight] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,30 +60,76 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Measure the sticky Navbar's real rendered height and expose it as both
+  // state (for the IntersectionObserver rootMargin below) and a CSS custom
+  // property (for each section's scroll-margin-top in globals.css) — so a
+  // clicked anchor link never scrolls a section's top edge underneath the
+  // header, and stays correct if the header's height ever changes.
   useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const updateHeight = () => {
+      const height = header.offsetHeight;
+      setNavbarHeight(height);
+      document.documentElement.style.setProperty("--navbar-height", `${height}px`);
+    };
+
+    updateHeight();
+    const resizeObserver = new ResizeObserver(updateHeight);
+    resizeObserver.observe(header);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (navbarHeight === 0) return;
+
     const sections = navLinks
       .map((link) => document.getElementById(link.href.slice(1)))
       .filter((el): el is HTMLElement => el !== null);
 
     if (sections.length === 0) return;
 
+    // Keep every section's latest intersection ratio (IntersectionObserver
+    // only reports entries whose status changed, not the full set each
+    // time) so that when a fast anchor-link jump makes two adjacent
+    // sections intersect within the same callback batch, we pick whichever
+    // is actually more visible instead of whichever happens to be last in
+    // the batch.
+    const ratios = new Map<string, number>();
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
+          ratios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
         });
+
+        let bestId: string | null = null;
+        let bestRatio = 0;
+        for (const [id, ratio] of ratios) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        }
+        if (bestId) setActiveId(bestId);
       },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+      {
+        // Exclude the area behind the sticky Navbar entirely, and treat a
+        // section as "active" based on which one dominates the upper part
+        // of the remaining viewport.
+        rootMargin: `-${navbarHeight}px 0px -60% 0px`,
+        threshold: Array.from({ length: 11 }, (_, i) => i / 10),
+      }
     );
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [navbarHeight]);
 
   return (
     <header
+      ref={headerRef}
       className={`sticky top-0 z-50 w-full transition-all duration-300 ease-out ${
         scrolled
           ? "border-b border-border bg-background/80 backdrop-blur-md"
