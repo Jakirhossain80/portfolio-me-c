@@ -60,6 +60,10 @@ export default function Projects() {
     <section id="projects" className="mx-auto max-w-5xl px-6 py-20">
       <Reveal>
         <SectionHeading eyebrow="Projects" title="Things I've built" />
+        <p className="mt-3 text-sm text-muted">
+          Some live demos are hosted on free tiers (e.g. Render) and may take a moment to
+          wake up on first load.
+        </p>
       </Reveal>
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2">

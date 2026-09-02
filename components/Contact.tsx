@@ -8,7 +8,9 @@ import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { contactSchema, type ContactFormValues } from "@/lib/validations/contact";
 
-type SubmitStatus = "idle" | "success" | "error";
+type SubmitStatus = "idle" | "success" | "network-error" | "server-error" | "malformed-error";
+
+const SUBMIT_TIMEOUT_MS = 15_000;
 
 const fieldClasses =
   "w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-foreground " +
@@ -30,20 +32,46 @@ export default function Contact() {
 
   async function onSubmit(values: ContactFormValues) {
     setStatus("idle");
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS);
+
+    let res: Response;
     try {
-      const res = await fetch("/api/contact", {
+      res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
+        signal: controller.signal,
       });
-
-      if (!res.ok) throw new Error("Request failed");
-
-      setStatus("success");
-      reset();
-    } catch {
-      setStatus("error");
+    } catch (err) {
+      // Offline, DNS failure, or the AbortController firing on timeout all
+      // land here as a rejected fetch — the browser gives no way to tell
+      // them apart, so they share one "check your connection" message.
+      console.error("Contact form: network error", err);
+      setStatus("network-error");
+      return;
+    } finally {
+      clearTimeout(timeoutId);
     }
+
+    let data: unknown;
+    try {
+      data = await res.json();
+    } catch (err) {
+      console.error("Contact form: malformed response", err);
+      setStatus("malformed-error");
+      return;
+    }
+
+    if (!res.ok) {
+      console.error("Contact form: server responded with error", res.status, data);
+      setStatus("server-error");
+      return;
+    }
+
+    setStatus("success");
+    reset();
   }
 
   return (
@@ -126,9 +154,19 @@ export default function Contact() {
               Message sent — I&apos;ll get back to you soon.
             </p>
           )}
-          {status === "error" && (
+          {status === "network-error" && (
             <p className="text-sm text-error">
-              Something went wrong sending your message. Please try again.
+              Couldn&apos;t send — check your connection and try again.
+            </p>
+          )}
+          {status === "server-error" && (
+            <p className="text-sm text-error">
+              Something went wrong on our end. Please try again shortly.
+            </p>
+          )}
+          {status === "malformed-error" && (
+            <p className="text-sm text-error">
+              Unexpected response from the server — please try again.
             </p>
           )}
         </form>

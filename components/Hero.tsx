@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Button from "@/components/ui/Button";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { profile } from "@/lib/data";
 
 export default function Hero() {
@@ -9,7 +9,7 @@ export default function Hero() {
       className="mx-auto flex min-h-[85svh] max-w-3xl flex-col items-center justify-center gap-6 px-6 py-20 text-center"
     >
       <div className="hero-reveal hero-reveal-1 flex flex-col items-center gap-4">
-        <Image
+        <ImageWithFallback
           src={profile.photoUrl}
           alt={profile.name}
           width={128}
