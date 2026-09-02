@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import ThemeProvider from "@/components/ThemeProvider";
 import { profile } from "@/lib/data";
 import { getSiteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -77,13 +78,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${manrope.variable} ${ibmPlexSans.variable} ${jetbrainsMono.variable} antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

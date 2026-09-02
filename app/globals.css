@@ -17,16 +17,19 @@
   --navbar-height: 64px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0B0F14;
-    --surface: #131820;
-    --border: #1F2733;
-    --foreground: #EDEFF2;
-    --muted: #8B96A5;
-    --accent: #14B8A6;
-    --error: #F87171;
-  }
+/* Dark theme is applied via the `.dark` class next-themes sets on <html>
+   (resolved from the user's stored Light/Dark/System preference), not a bare
+   prefers-color-scheme query — that lets an explicit Light/Dark choice
+   override the OS preference, while "System" still resolves to this through
+   next-themes' own matchMedia listener. See ThemeProvider.tsx. */
+.dark {
+  --background: #0B0F14;
+  --surface: #131820;
+  --border: #1F2733;
+  --foreground: #EDEFF2;
+  --muted: #8B96A5;
+  --accent: #14B8A6;
+  --error: #F87171;
 }
 
 @theme inline {

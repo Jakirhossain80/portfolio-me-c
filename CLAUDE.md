@@ -23,6 +23,8 @@ Contact, Footer) meant to read as modern and professional, not flashy.
   the first icon usage actually lands, e.g. Navbar/Footer social links)
 - **React Hook Form + Zod** — contact form validation only, not used elsewhere (not yet
   installed; add when building the Contact section)
+- **next-themes** — Light/Dark/System theme switching (`components/ThemeProvider.tsx`,
+  `components/ui/ThemeToggle.tsx`); see the color-tokens implementation note above
 - **Deployment:** Vercel
 - **Source control:** GitHub
 - **Package manager:** npm — keep `package-lock.json` in sync, don't introduce yarn/pnpm
@@ -65,8 +67,13 @@ page as a background or large fill.
 
 **Implementation note:** these tokens are real CSS custom properties in
 `app/globals.css` — `--background`, `--surface`, `--border`, `--foreground`, `--muted`,
-`--accent` — set on `:root` for light and overridden inside
-`@media (prefers-color-scheme: dark)`. They're re-exposed to Tailwind via an
+`--accent` — set on `:root` for light and overridden inside a `.dark` class selector.
+`next-themes` (`components/ThemeProvider.tsx`, wired in `app/layout.tsx`) toggles that
+class on `<html>` based on the user's Light/Dark/System preference — System resolves to
+the OS `prefers-color-scheme` via next-themes' own matchMedia listener rather than a
+bare CSS media query, so an explicit Light/Dark choice can override the OS preference.
+The icon-based selector lives in `components/ui/ThemeToggle.tsx`, used from `Navbar.tsx`.
+They're re-exposed to Tailwind via an
 `@theme inline` block as `--color-background`, `--color-surface`, `--color-border`,
 `--color-foreground`, `--color-muted`, `--color-accent`, which is what makes
 `bg-background`, `bg-surface`, `border-border`, `text-foreground`, `text-muted`, and
