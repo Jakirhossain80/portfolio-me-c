@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import TracedButton from "@/components/ui/TracedButton";
 import { profile } from "@/lib/data";
 
 export default function Hero() {
@@ -36,15 +37,12 @@ export default function Hero() {
         <Button href="#contact" variant="secondary">
           Get in touch
         </Button>
-        <Button
+        <TracedButton
           href={profile.resumeUrl}
-          variant="secondary"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="!border-transparent !px-4 !py-2 !text-xs !text-muted !shadow-none hover:!text-accent hover:!shadow-none"
+          className="!px-4 !py-2 !text-xs !text-muted hover:!text-accent hover:!shadow-none"
         >
           Resume
-        </Button>
+        </TracedButton>
       </div>
     </section>
   );
