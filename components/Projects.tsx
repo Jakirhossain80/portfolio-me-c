@@ -27,18 +27,39 @@ function ProjectCard({ project }: { project: Project }) {
               </a>
             </Tooltip>
           )}
-          <Tooltip id={`tooltip-project-${project.slug}-repo`} label="View source code">
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.name} repository`}
-              aria-describedby={`tooltip-project-${project.slug}-repo`}
-              className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
-            >
-              <GithubIcon className="h-5 w-5" />
-            </a>
-          </Tooltip>
+          {project.repoUrls
+            ? project.repoUrls.map((repo) => (
+                <Tooltip
+                  key={repo.url}
+                  id={`tooltip-project-${project.slug}-repo-${repo.label.toLowerCase()}`}
+                  label={`View ${repo.label.toLowerCase()} source code`}
+                >
+                  <a
+                    href={repo.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.name} ${repo.label} repository`}
+                    aria-describedby={`tooltip-project-${project.slug}-repo-${repo.label.toLowerCase()}`}
+                    className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
+                  >
+                    <GithubIcon className="h-5 w-5" />
+                  </a>
+                </Tooltip>
+              ))
+            : project.repoUrl && (
+                <Tooltip id={`tooltip-project-${project.slug}-repo`} label="View source code">
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.name} repository`}
+                    aria-describedby={`tooltip-project-${project.slug}-repo`}
+                    className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
+                  >
+                    <GithubIcon className="h-5 w-5" />
+                  </a>
+                </Tooltip>
+              )}
         </div>
       </div>
 

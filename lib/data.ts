@@ -184,4 +184,39 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/Jakirhossain80/careerbridge",
     featured: true,
   },
+  {
+    slug: "towertrack",
+    name: "TowerTrack",
+    description:
+      "Full-stack MERN residential building management system with role-based " +
+      "dashboards for admins and members, Stripe-powered rent payments, and " +
+      "Firebase authentication.",
+    highlights: [
+      "Role-based dashboards for building admins vs. residents",
+      "Rent tracking with an automated notice system — members who accumulate " +
+        "three unpaid notices are automatically downgraded to standard-user access",
+      "Maintenance request submission and handling",
+      "Stripe integration for rent payments",
+      "Firebase Authentication for secure login",
+      "Building-wide announcement system",
+      "Dark/light mode toggle (context-based, persisted)",
+    ],
+    stack: [
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "Context API",
+      "Firebase Auth",
+      "Node.js",
+      "Express.js",
+      "MongoDB Atlas",
+      "Stripe",
+    ],
+    liveUrl: "https://towertrack-ph-assestwelve.netlify.app",
+    repoUrls: [
+      { label: "Client", url: "https://github.com/Jakirhossain80/towerTrack-client-ph-public" },
+      { label: "Server", url: "https://github.com/Jakirhossain80/towerTrack-server-ph-public" },
+    ],
+    featured: true,
+  },
 ];

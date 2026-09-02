@@ -26,6 +26,7 @@ export interface Project {
   highlights: string[];
   stack: string[];
   liveUrl?: string;
-  repoUrl: string;
+  repoUrl?: string;
+  repoUrls?: { label: string; url: string }[];
   featured?: boolean;
 }
