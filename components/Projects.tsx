@@ -3,6 +3,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Badge from "@/components/ui/Badge";
 import Reveal from "@/components/ui/Reveal";
 import { GithubIcon } from "@/components/icons/SocialIcons";
+import Tooltip from "@/components/ui/Tooltip";
 import { projects } from "@/lib/data";
 import type { Project } from "@/lib/types";
 
@@ -13,25 +14,31 @@ function ProjectCard({ project }: { project: Project }) {
         <h3 className="text-lg text-foreground">{project.name}</h3>
         <div className="flex shrink-0 items-center gap-3">
           {project.liveUrl && (
+            <Tooltip id={`tooltip-project-${project.slug}-live`} label="View live demo">
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${project.name} live site`}
+                aria-describedby={`tooltip-project-${project.slug}-live`}
+                className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <ExternalLink className="h-5 w-5" />
+              </a>
+            </Tooltip>
+          )}
+          <Tooltip id={`tooltip-project-${project.slug}-repo`} label="View source code">
             <a
-              href={project.liveUrl}
+              href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${project.name} live site`}
-              className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              aria-label={`${project.name} repository`}
+              aria-describedby={`tooltip-project-${project.slug}-repo`}
+              className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
             >
-              <ExternalLink className="h-5 w-5" />
+              <GithubIcon className="h-5 w-5" />
             </a>
-          )}
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${project.name} repository`}
-            className="cursor-pointer text-muted transition-colors duration-200 hover:text-accent"
-          >
-            <GithubIcon className="h-5 w-5" />
-          </a>
+          </Tooltip>
         </div>
       </div>
 

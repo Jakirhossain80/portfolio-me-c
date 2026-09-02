@@ -1,5 +1,6 @@
 import { profile } from "@/lib/data";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
+import Tooltip from "@/components/ui/Tooltip";
 
 const socialLinks = [
   { href: profile.githubUrl, label: "GitHub", Icon: GithubIcon },
@@ -21,16 +22,18 @@ export default function Footer() {
 
         <div className="flex items-center gap-4">
           {socialLinks.map(({ href, label, Icon }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              <Icon className="h-5 w-5" />
-            </a>
+            <Tooltip key={label} id={`tooltip-footer-${label}`} label={label}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                aria-describedby={`tooltip-footer-${label}`}
+                className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            </Tooltip>
           ))}
         </div>
       </div>

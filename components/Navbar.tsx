@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { profile } from "@/lib/data";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import Tooltip from "@/components/ui/Tooltip";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -158,16 +159,18 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-4 md:flex">
           {socialLinks.map(({ href, label, Icon }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              <Icon className="h-5 w-5" />
-            </a>
+            <Tooltip key={label} id={`tooltip-navbar-${label}`} label={label}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                aria-describedby={`tooltip-navbar-${label}`}
+                className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            </Tooltip>
           ))}
           <ThemeToggle />
         </div>
@@ -201,16 +204,18 @@ export default function Navbar() {
           </nav>
           <div className="flex items-center gap-4 border-t border-border px-6 py-4">
             {socialLinks.map(({ href, label, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                <Icon className="h-5 w-5" />
-              </a>
+              <Tooltip key={label} id={`tooltip-navbar-mobile-${label}`} label={label}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  aria-describedby={`tooltip-navbar-mobile-${label}`}
+                  className="cursor-pointer rounded-sm text-muted transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              </Tooltip>
             ))}
           </div>
         </div>

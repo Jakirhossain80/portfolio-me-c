@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type KeyboardEvent,
+} from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon, Monitor } from "lucide-react";
+import Tooltip from "@/components/ui/Tooltip";
 
 type ThemeOption = "light" | "dark" | "system";
 
@@ -41,6 +49,10 @@ export default function ThemeToggle() {
   const containerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  // ThemeToggle renders twice (desktop + mobile nav rows, both present in
+  // the DOM at once), so the tooltip id can't be a fixed string — useId()
+  // gives each instance its own stable, unique id.
+  const tooltipId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -107,17 +119,20 @@ export default function ThemeToggle() {
 
   return (
     <div ref={containerRef} className="relative">
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        aria-label={`Theme: ${current.label}. Activate to change theme`}
-        className={iconButtonClasses}
-      >
-        <CurrentIcon className="h-5 w-5" />
-      </button>
+      <Tooltip id={tooltipId} label={`Theme: ${current.label}`}>
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          aria-haspopup="menu"
+          aria-expanded={open}
+          aria-label={`Theme: ${current.label}. Activate to change theme`}
+          aria-describedby={tooltipId}
+          className={iconButtonClasses}
+        >
+          <CurrentIcon className="h-5 w-5" />
+        </button>
+      </Tooltip>
 
       {open && (
         <div
