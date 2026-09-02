@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import { profile } from "@/lib/data";
+import { getSiteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -25,8 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 const titleDefault = `${profile.name} | ${profile.title}`;
 
 export const metadata: Metadata = {
-  // TODO: replace with the production Vercel domain once it exists
-  metadataBase: new URL("https://example.com"),
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: titleDefault,
     template: `%s | ${profile.name}`,
@@ -47,13 +47,11 @@ export const metadata: Metadata = {
     title: titleDefault,
     description: profile.summary,
     type: "website",
-    images: [{ url: "/og-image.png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: titleDefault,
     description: profile.summary,
-    images: ["/og-image.png"],
   },
 };
 
@@ -64,13 +62,29 @@ export const viewport: Viewport = {
   ],
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.title,
+  url: getSiteUrl(),
+  image: `${getSiteUrl()}${profile.photoUrl}`,
+  sameAs: [profile.githubUrl, profile.linkedinUrl],
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${manrope.variable} ${ibmPlexSans.variable} ${jetbrainsMono.variable} antialiased`}
     >
-      <body className="min-h-screen flex flex-col">{children}</body>
+      <body className="min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
