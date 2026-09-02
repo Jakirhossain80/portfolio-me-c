@@ -36,6 +36,15 @@ export default function Hero() {
         <Button href="#contact" variant="secondary">
           Get in touch
         </Button>
+        <Button
+          href={profile.resumeUrl}
+          variant="secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="!border-transparent !px-4 !py-2 !text-xs !text-muted !shadow-none hover:!text-accent hover:!shadow-none"
+        >
+          Resume
+        </Button>
       </div>
     </section>
   );

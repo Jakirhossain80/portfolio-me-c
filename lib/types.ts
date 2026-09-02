@@ -9,6 +9,7 @@ export interface Profile {
   githubUrl: string;
   linkedinUrl: string;
   photoUrl: string;
+  resumeUrl: string;
 }
 
 export type SkillCategory = "Frontend" | "Backend" | "Tools & Platforms";

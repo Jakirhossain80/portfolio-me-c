@@ -21,6 +21,7 @@ export const profile: Profile = {
   githubUrl: "https://github.com/Jakirhossain80",
   linkedinUrl: "https://www.linkedin.com/in/jakir-hossain-dev",
   photoUrl: "/images/profile.jpg",
+  resumeUrl: "/jakir-hossain-cv.pdf",
 };
 
 export const skills: Skill[] = [
