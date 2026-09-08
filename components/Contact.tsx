@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Phone } from "lucide-react";
+import { Loader2, Mail, Phone } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
@@ -166,6 +166,7 @@ export default function Contact() {
           </div>
 
           <Button type="submit" variant="primary" disabled={isSubmitting} className="self-start">
+            {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
             {isSubmitting ? "Sending..." : "Send message"}
           </Button>
 
