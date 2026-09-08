@@ -6,6 +6,7 @@ export interface Profile {
   focusAreas: string[];
   location: string;
   email: string;
+  phone: string;
   githubUrl: string;
   linkedinUrl: string;
   photoUrl: string;

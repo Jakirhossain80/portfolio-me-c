@@ -3,10 +3,17 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail, Phone } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
+import { profile } from "@/lib/data";
 import { contactSchema, type ContactFormValues } from "@/lib/validations/contact";
+
+const contactLinkClasses =
+  "inline-flex cursor-pointer items-center gap-2 rounded-sm text-sm text-muted " +
+  "transition-colors duration-200 hover:text-accent focus-visible:outline-2 " +
+  "focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 type SubmitStatus = "idle" | "success" | "network-error" | "server-error" | "malformed-error";
 
@@ -81,6 +88,19 @@ export default function Contact() {
       </Reveal>
 
       <Reveal delay={90}>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+          <a href={`mailto:${profile.email}`} className={contactLinkClasses}>
+            <Mail className="h-4 w-4" />
+            {profile.email}
+          </a>
+          <a href={`tel:${profile.phone.replace(/\s+/g, "")}`} className={contactLinkClasses}>
+            <Phone className="h-4 w-4" />
+            {profile.phone}
+          </a>
+        </div>
+      </Reveal>
+
+      <Reveal delay={180}>
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate

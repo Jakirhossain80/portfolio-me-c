@@ -18,6 +18,7 @@ export const profile: Profile = {
   ],
   location: "Dhaka, Bangladesh",
   email: "jakir.devbd@gmail.com",
+  phone: "+88 01712119253",
   githubUrl: "https://github.com/Jakirhossain80",
   linkedinUrl: "https://www.linkedin.com/in/jakir-hossain-dev",
   photoUrl: "/images/profile.jpg",
