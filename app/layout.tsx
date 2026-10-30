@@ -45,11 +45,6 @@ export const metadata: Metadata = {
     "Full-stack web developer",
     profile.name,
   ],
-  openGraph: {
-    title: titleDefault,
-    description: profile.summary,
-    type: "website",
-  },
   twitter: {
     card: "summary_large_image",
     title: titleDefault,
